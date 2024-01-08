@@ -6,6 +6,9 @@ public class GameController : MonoBehaviour
 {
     private Board m_gameBoard;
     private Spawner m_spawner;
+
+    Shape m_activeShape;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,7 +16,11 @@ public class GameController : MonoBehaviour
         m_spawner = GameObject.FindWithTag("Spawner").GetComponent<Spawner>();
 
         if (m_spawner)
-        {
+        {          
+            if(m_activeShape == null)
+            {
+                m_activeShape = m_spawner.SpawnShape();
+            }
             m_spawner.transform.position = Vectorf.Round(m_spawner.transform.position);
         }
 
@@ -28,9 +35,16 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if(!m_spawner || !m_gameBoard)
+        {
+            return;
+        }
+
+        if (m_activeShape)
+        {
+            m_activeShape.MoveDown();
+        }
     }
 }
