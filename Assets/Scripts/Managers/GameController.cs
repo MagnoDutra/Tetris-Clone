@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
 
     Shape m_activeShape;
 
-    float m_dropInterval = 1f;
+    float m_dropInterval = 0.3f;
     float m_timeToDrop;
 
     // Start is called before the first frame update
@@ -55,7 +55,9 @@ public class GameController : MonoBehaviour
 
                 if (!m_gameBoard.IsValidPosition(m_activeShape))
                 {
+                    // Shape Landing
                     m_activeShape.MoveUp();
+                    m_gameBoard.StoreShapeInGrid(m_activeShape);
 
                     if (m_spawner)
                     {

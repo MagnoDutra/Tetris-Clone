@@ -41,10 +41,21 @@ public class Board : MonoBehaviour
             {
                 return false;
             }
+
+            if(IsOccupied((int)pos.x,(int)pos.y, shape))
+            {
+                return false;
+            }
         }
 
         return true;
     }
+
+    bool IsOccupied(int x, int y, Shape shape)
+    {
+        return (m_grid[x, y] != null && m_grid[x, y].parent != shape.transform);
+    }
+
 
     void DrawEmptyCells()
     {
@@ -64,6 +75,20 @@ public class Board : MonoBehaviour
         else
         {
             Debug.LogWarning("WARNING! Please assign the emptyCell object");
+        }
+    }
+
+    public void StoreShapeInGrid(Shape shape)
+    {
+        if(shape == null)
+        {
+            return;
+        }
+
+        foreach (Transform child in shape.transform)
+        {
+            Vector2 pos = Vectorf.Round(child.position);
+            m_grid[(int)pos.x, (int)pos.y] = child;
         }
     }
 }
