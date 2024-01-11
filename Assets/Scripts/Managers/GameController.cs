@@ -32,6 +32,10 @@ public class GameController : MonoBehaviour
     [Range(0.02f, 1f)]
     [SerializeField] private float m_keyRepeatRateRotate = 0.25f;
 
+    bool m_gameOver = false;
+
+    public GameObject m_gameOverPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,6 +63,11 @@ public class GameController : MonoBehaviour
             {
                 m_activeShape = m_spawner.SpawnShape();
             }
+        }
+
+        if (m_gameOverPanel)
+        {
+            m_gameOverPanel.SetActive(false);
         }
     }
 
@@ -103,9 +112,27 @@ public class GameController : MonoBehaviour
 
             if (!m_gameBoard.IsValidPosition(m_activeShape))
             {
-                LandShape();
+                if (m_gameBoard.IsOverLimit(m_activeShape))
+                {
+                    GameOver();
+                }
+                else
+                {
+                    LandShape();
+                }
             }
 
+        }
+    }
+
+    private void GameOver()
+    {
+        m_activeShape.MoveUp();
+        m_gameOver = true;
+
+        if (m_gameOverPanel)
+        {
+            m_gameOverPanel.SetActive(true);
         }
     }
 
@@ -125,11 +152,16 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if(!m_spawner || !m_gameBoard || !m_activeShape)
+        if(!m_spawner || !m_gameBoard || !m_activeShape || m_gameOver)
         {
             return;
         }
 
         PlayerInput();
+    }
+
+    public void Restart()
+    {
+        Application.LoadLevel(Application.loadedLevel);
     }
 }
