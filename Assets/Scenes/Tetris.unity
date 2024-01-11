@@ -1131,9 +1131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7c1a3b90285324bbe092c63259c93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dropInterval: 0.9
   m_keyRepeatRateLeftRight: 0.25
-  m_keyRepeatRateDown: 0.01
-  m_keyRepeatRateRotate: 0.25
+  m_keyRepeatRateDown: 0.02
+  m_keyRepeatRateRotate: 0.2
 --- !u!1 &1223916046
 GameObject:
   m_ObjectHideFlags: 0
