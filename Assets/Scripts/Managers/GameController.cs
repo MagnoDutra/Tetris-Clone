@@ -168,6 +168,7 @@ public class GameController : MonoBehaviour
         }
 
         PlaySound(m_soundManager.m_gameOverSound, 5f);
+        PlaySound(m_soundManager.m_gameOverVocalClip, 5f);
     }
 
     private void LandShape()
@@ -187,6 +188,11 @@ public class GameController : MonoBehaviour
 
         if(m_gameBoard.m_completedRows > 0)
         {
+            if(m_gameBoard.m_completedRows > 1)
+            {
+                AudioClip randomVocal = m_soundManager.GetRandomClip(m_soundManager.m_vocalClips);
+                PlaySound(randomVocal);
+            }
             PlaySound(m_soundManager.m_clearRowSound, 0.75f);
         }
     }

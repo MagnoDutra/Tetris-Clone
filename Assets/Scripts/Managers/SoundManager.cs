@@ -23,6 +23,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] m_musicClips;
     AudioClip m_randomMusicClip;
 
+    public AudioClip[] m_vocalClips;
+    public AudioClip m_gameOverVocalClip;
+
     // Start is called before the first frame update
     void Start()
     {
