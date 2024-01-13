@@ -78,4 +78,9 @@ public class SoundManager : MonoBehaviour
         m_musicEnabled = !m_musicEnabled;
         UpdateMusic();
     }
+
+    public void ToggleFX()
+    {
+        m_fxEnabled = !m_fxEnabled;
+    }
 }

@@ -36,11 +36,14 @@ public class GameController : MonoBehaviour
 
     public GameObject m_gameOverPanel;
 
+    SoundManager m_soundManager;
+
     // Start is called before the first frame update
     void Start()
     {
         m_gameBoard = GameObject.FindWithTag("Board").GetComponent<Board>();
         m_spawner = GameObject.FindWithTag("Spawner").GetComponent<Spawner>();
+        m_soundManager = GameObject.FindObjectOfType<SoundManager>();
 
         m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
         m_timeToNextKeyDown = Time.time + m_keyRepeatRateDown;
@@ -49,6 +52,11 @@ public class GameController : MonoBehaviour
         if (!m_gameBoard)
         {
             Debug.LogWarning("WARNING! There is no game board defined!");
+        }
+
+        if (!m_soundManager)
+        {
+            Debug.LogWarning("WARNING! There is no Sound Manager defined!");
         }
 
         if (!m_spawner)
@@ -148,11 +156,16 @@ public class GameController : MonoBehaviour
         m_timeToNextKeyRotate = Time.time;
 
         m_gameBoard.ClearAllRows();
+
+        if (m_soundManager.m_fxEnabled && m_soundManager.m_dropSound)
+        {
+            AudioSource.PlayClipAtPoint(m_soundManager.m_dropSound, Camera.main.transform.position, m_soundManager.m_fxVolume);
+        }
     }
 
     private void Update()
     {
-        if(!m_spawner || !m_gameBoard || !m_activeShape || m_gameOver)
+        if(!m_spawner || !m_gameBoard || !m_activeShape || m_gameOver || !m_soundManager)
         {
             return;
         }
