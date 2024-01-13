@@ -85,10 +85,16 @@ public class GameController : MonoBehaviour
         {
             m_activeShape.MoveRight();
             m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
+            
 
             if (!m_gameBoard.IsValidPosition(m_activeShape))
             {
                 m_activeShape.MoveLeft();
+                PlaySound(m_soundManager.m_errorSound, 0.5f);
+            }
+            else
+            {
+                PlaySound(m_soundManager.m_moveSound, 0.5f);
             }
         }
         else if (Input.GetButton("MoveLeft") && Time.time > m_timeToNextKeyLeftRight || Input.GetButtonDown("MoveLeft"))
@@ -99,6 +105,11 @@ public class GameController : MonoBehaviour
             if (!m_gameBoard.IsValidPosition(m_activeShape))
             {
                 m_activeShape.MoveRight();
+                PlaySound(m_soundManager.m_errorSound, 0.5f);
+            }
+            else
+            {
+                PlaySound(m_soundManager.m_moveSound, 0.5f);
             }
         }
         else if (Input.GetButtonDown("Rotate") && Time.time > m_timeToNextKeyRotate)
@@ -109,6 +120,11 @@ public class GameController : MonoBehaviour
             if (!m_gameBoard.IsValidPosition(m_activeShape))
             {
                 m_activeShape.RotateLeft();
+                PlaySound(m_soundManager.m_errorSound, 0.5f);
+            }
+            else
+            {
+                PlaySound(m_soundManager.m_moveSound, 0.5f);
             }
         }
         else if (Input.GetButton("MoveDown") && (Time.time > m_timeToNextKeyDown) || (Time.time > m_timeToDrop))
@@ -133,6 +149,14 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void PlaySound(AudioClip clip, float volMultiplier = 1f)
+    {
+        if (m_soundManager.m_fxEnabled)
+        {
+            AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, Mathf.Clamp(m_soundManager.m_fxVolume * volMultiplier, 0.05f, 1f));
+        }
+    }
+
     private void GameOver()
     {
         m_activeShape.MoveUp();
@@ -142,6 +166,8 @@ public class GameController : MonoBehaviour
         {
             m_gameOverPanel.SetActive(true);
         }
+
+        PlaySound(m_soundManager.m_gameOverSound, 5f);
     }
 
     private void LandShape()
@@ -157,10 +183,7 @@ public class GameController : MonoBehaviour
 
         m_gameBoard.ClearAllRows();
 
-        if (m_soundManager.m_fxEnabled && m_soundManager.m_dropSound)
-        {
-            AudioSource.PlayClipAtPoint(m_soundManager.m_dropSound, Camera.main.transform.position, m_soundManager.m_fxVolume);
-        }
+        PlaySound(m_soundManager.m_dropSound, 0.75f);
     }
 
     private void Update()
