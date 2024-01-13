@@ -41,6 +41,10 @@ public class GameController : MonoBehaviour
     public IconToggle m_rotIconToggle;
     bool m_clockwise = true;
 
+    public bool m_isPaused = false;
+    public GameObject m_pausePanel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +83,11 @@ public class GameController : MonoBehaviour
         if (m_gameOverPanel)
         {
             m_gameOverPanel.SetActive(false);
+        }
+
+        if (m_pausePanel)
+        {
+            m_pausePanel.SetActive(false);
         }
     }
 
@@ -153,6 +162,9 @@ public class GameController : MonoBehaviour
         }else if (Input.GetButtonDown("ToggleRot"))
         {
             ToggleRotDirection();
+        }else if (Input.GetButtonDown("Pause"))
+        {
+            TogglePause();
         }
     }
 
@@ -216,6 +228,7 @@ public class GameController : MonoBehaviour
 
     public void Restart()
     {
+        Time.timeScale = 1f;
         Application.LoadLevel(Application.loadedLevel);
     }
 
@@ -225,6 +238,28 @@ public class GameController : MonoBehaviour
         if (m_rotIconToggle)
         {
             m_rotIconToggle.ToggleIcon(m_clockwise);
+        }
+    }
+
+    public void TogglePause()
+    {
+        if (m_gameOver)
+        {
+            return;
+        }
+
+        m_isPaused = !m_isPaused;
+
+        if (m_pausePanel)
+        {
+            m_pausePanel.SetActive(m_isPaused);
+
+            if (m_soundManager)
+            {
+                m_soundManager.m_musicSource.volume = (m_isPaused) ? m_soundManager.m_musicVolume * 0.25f : m_soundManager.m_musicVolume;
+            }
+
+            Time.timeScale = (m_isPaused) ? 0 : 1;
         }
     }
 }
