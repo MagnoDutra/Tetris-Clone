@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     Shape m_activeShape;
 
     [SerializeField] float m_dropInterval = 0.2f;
+    float m_dropIntervalModded;
     float m_timeToDrop;
     /*
     float m_timeToNextKey;
@@ -97,11 +98,13 @@ public class GameController : MonoBehaviour
         {
             m_pausePanel.SetActive(false);
         }
+
+        m_dropIntervalModded = m_dropInterval;
     }
 
     void PlayerInput()
     {
-        if (Input.GetButton("MoveRight") && Time.time > m_timeToNextKeyLeftRight || Input.GetButtonDown("MoveRight"))
+        if ((Input.GetButton("MoveRight") && Time.time > m_timeToNextKeyLeftRight) || Input.GetButtonDown("MoveRight"))
         {
             m_activeShape.MoveRight();
             m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
@@ -117,7 +120,7 @@ public class GameController : MonoBehaviour
                 PlaySound(m_soundManager.m_moveSound, 0.5f);
             }
         }
-        else if (Input.GetButton("MoveLeft") && Time.time > m_timeToNextKeyLeftRight || Input.GetButtonDown("MoveLeft"))
+        else if ((Input.GetButton("MoveLeft") && Time.time > m_timeToNextKeyLeftRight) || Input.GetButtonDown("MoveLeft"))
         {
             m_activeShape.MoveLeft();
             m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
@@ -149,9 +152,9 @@ public class GameController : MonoBehaviour
                 PlaySound(m_soundManager.m_moveSound, 0.5f);
             }
         }
-        else if (Input.GetButton("MoveDown") && (Time.time > m_timeToNextKeyDown) || (Time.time > m_timeToDrop))
+        else if ((Input.GetButton("MoveDown") && (Time.time > m_timeToNextKeyDown)) || (Time.time > m_timeToDrop))
         {
-            m_timeToDrop = Time.time + m_dropInterval;
+            m_timeToDrop = Time.time + m_dropIntervalModded;
             m_timeToNextKeyDown = Time.time + m_keyRepeatRateDown;
 
             m_activeShape.MoveDown();
@@ -216,11 +219,20 @@ public class GameController : MonoBehaviour
         if(m_gameBoard.m_completedRows > 0)
         {
             m_scoreManager.ScoreLines(m_gameBoard.m_completedRows);
-            if(m_gameBoard.m_completedRows > 1)
+            if (m_scoreManager.m_didLevelUp)
             {
-                AudioClip randomVocal = m_soundManager.GetRandomClip(m_soundManager.m_vocalClips);
-                PlaySound(randomVocal);
+                PlaySound(m_soundManager.m_levelUpVocalClip);
+                m_dropIntervalModded =Mathf.Clamp( m_dropInterval - (((float)m_scoreManager.m_level - 1) * 0.05f), 0.05f, 1f);
             }
+            else
+            {
+                if (m_gameBoard.m_completedRows > 1)
+                {
+                    AudioClip randomVocal = m_soundManager.GetRandomClip(m_soundManager.m_vocalClips);
+                    PlaySound(randomVocal);
+                }
+            }
+
             PlaySound(m_soundManager.m_clearRowSound, 0.75f);
         }
     }

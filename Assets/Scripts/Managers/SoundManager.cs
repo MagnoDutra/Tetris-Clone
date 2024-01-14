@@ -29,6 +29,8 @@ public class SoundManager : MonoBehaviour
     public IconToggle m_musicIconToggle;
     public IconToggle m_fxIconToggle;
 
+    public AudioClip m_levelUpVocalClip;
+
     // Start is called before the first frame update
     void Start()
     {
