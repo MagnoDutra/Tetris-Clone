@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    public Text m_linesText;
+    public Text m_levelText;
+    public Text m_scoreText;
+
     int m_score = 0;
     int m_lines;
     int m_level = 1;
@@ -32,6 +37,8 @@ public class ScoreManager : MonoBehaviour
                 m_score += 1200 * m_level;
                 break;
         }
+
+        UpdateUIText();
     }
 
     public void ResetScore()
@@ -44,5 +51,35 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         ResetScore();
+    }
+
+    void UpdateUIText()
+    {
+        if (m_linesText)
+        {
+            m_linesText.text = m_lines.ToString();
+        }
+
+        if (m_levelText)
+        {
+            m_levelText.text = m_level.ToString();
+        }
+
+        if (m_scoreText)
+        {
+            m_scoreText.text = PadZero(m_score, 5);
+        }
+    }
+
+    string PadZero(int n, int padDigits)
+    {
+        string nStr = n.ToString();
+
+        while (nStr.Length < padDigits)
+        {
+            nStr = "0" + nStr;
+        }
+
+        return nStr;
     }
 }
