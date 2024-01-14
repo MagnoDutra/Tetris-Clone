@@ -44,6 +44,8 @@ public class GameController : MonoBehaviour
     public bool m_isPaused = false;
     public GameObject m_pausePanel;
 
+    ScoreManager m_scoreManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +53,7 @@ public class GameController : MonoBehaviour
         m_gameBoard = GameObject.FindWithTag("Board").GetComponent<Board>();
         m_spawner = GameObject.FindWithTag("Spawner").GetComponent<Spawner>();
         m_soundManager = GameObject.FindObjectOfType<SoundManager>();
+        m_scoreManager = GameObject.FindObjectOfType<ScoreManager>();
 
         m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
         m_timeToNextKeyDown = Time.time + m_keyRepeatRateDown;
@@ -64,6 +67,11 @@ public class GameController : MonoBehaviour
         if (!m_soundManager)
         {
             Debug.LogWarning("WARNING! There is no Sound Manager defined!");
+        }
+
+        if (!m_scoreManager)
+        {
+            Debug.LogWarning("WARNING! There is no Score Manager defined!");
         }
 
         if (!m_spawner)
@@ -207,6 +215,7 @@ public class GameController : MonoBehaviour
 
         if(m_gameBoard.m_completedRows > 0)
         {
+            m_scoreManager.ScoreLines(m_gameBoard.m_completedRows);
             if(m_gameBoard.m_completedRows > 1)
             {
                 AudioClip randomVocal = m_soundManager.GetRandomClip(m_soundManager.m_vocalClips);
@@ -218,7 +227,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if(!m_spawner || !m_gameBoard || !m_activeShape || m_gameOver || !m_soundManager)
+        if(!m_spawner || !m_gameBoard || !m_activeShape || m_gameOver || !m_soundManager || !m_scoreManager)
         {
             return;
         }
