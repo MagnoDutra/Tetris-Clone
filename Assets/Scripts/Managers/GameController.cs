@@ -47,6 +47,8 @@ public class GameController : MonoBehaviour
 
     ScoreManager m_scoreManager;
 
+    Ghost m_ghost;
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +57,7 @@ public class GameController : MonoBehaviour
         m_spawner = GameObject.FindWithTag("Spawner").GetComponent<Spawner>();
         m_soundManager = GameObject.FindObjectOfType<SoundManager>();
         m_scoreManager = GameObject.FindObjectOfType<ScoreManager>();
+        m_ghost = GameObject.FindObjectOfType<Ghost>();
 
         m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
         m_timeToNextKeyDown = Time.time + m_keyRepeatRateDown;
@@ -206,6 +209,12 @@ public class GameController : MonoBehaviour
 
         m_activeShape.MoveUp();
         m_gameBoard.StoreShapeInGrid(m_activeShape);
+
+        if (m_ghost)
+        {
+            m_ghost.ResetShape();
+        }
+
         m_activeShape = m_spawner.SpawnShape();
 
         m_timeToNextKeyLeftRight = Time.time;
@@ -245,6 +254,14 @@ public class GameController : MonoBehaviour
         }
 
         PlayerInput();
+    }
+
+    private void LateUpdate()
+    {
+        if (m_ghost)
+        {
+            m_ghost.DrawGhost(m_activeShape, m_gameBoard);
+        }
     }
 
     public void Restart()

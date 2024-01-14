@@ -1884,6 +1884,51 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &711450607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 711450609}
+  - component: {fileID: 711450608}
+  m_Layer: 0
+  m_Name: Ghost
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &711450608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711450607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfb91715bba4ad4486c6fd48fdd1fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_color: {r: 1, g: 1, b: 1, a: 0.2}
+--- !u!4 &711450609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711450607}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 186, y: 330.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &753078018
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,6 +4573,7 @@ MonoBehaviour:
   m_gameOverVocalClip: {fileID: 8300000, guid: dde698f7e18ad439d93644afcb0de99b, type: 3}
   m_musicIconToggle: {fileID: 1201193646}
   m_fxIconToggle: {fileID: 2087670264}
+  m_levelUpVocalClip: {fileID: 8300000, guid: 2c74626c1fb694ae6babfb9e4b3cf48e, type: 3}
 --- !u!1 &2084133952
 GameObject:
   m_ObjectHideFlags: 0
@@ -4682,6 +4728,8 @@ MonoBehaviour:
   m_linesText: {fileID: 7499512255189551780}
   m_levelText: {fileID: 1795842696}
   m_scoreText: {fileID: 1737822943}
+  m_level: 1
+  m_didLevelUp: 0
   m_linesPerLevel: 5
 --- !u!1001 &7499512255189551778
 PrefabInstance:
@@ -4835,3 +4883,4 @@ SceneRoots:
   - {fileID: 1009191031}
   - {fileID: 297193852}
   - {fileID: 1657033318}
+  - {fileID: 711450609}
