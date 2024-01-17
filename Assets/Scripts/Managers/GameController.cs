@@ -49,6 +49,8 @@ public class GameController : MonoBehaviour
 
     Ghost m_ghost;
 
+    Holder m_holder;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +60,7 @@ public class GameController : MonoBehaviour
         m_soundManager = GameObject.FindObjectOfType<SoundManager>();
         m_scoreManager = GameObject.FindObjectOfType<ScoreManager>();
         m_ghost = GameObject.FindObjectOfType<Ghost>();
+        m_holder = GameObject.FindObjectOfType<Holder>();
 
         m_timeToNextKeyLeftRight = Time.time + m_keyRepeatRateLeftRight;
         m_timeToNextKeyDown = Time.time + m_keyRepeatRateDown;
@@ -298,6 +301,26 @@ public class GameController : MonoBehaviour
             }
 
             Time.timeScale = (m_isPaused) ? 0 : 1;
+        }
+    }
+    
+    public void Hold()
+    {
+        if (!m_holder)
+        {
+            return;
+        }
+
+        if(!m_holder.m_heldShape)
+        {
+            m_holder.Catch(m_activeShape);
+
+            m_activeShape = m_spawner.SpawnShape();
+        }
+
+        if (m_ghost)
+        {
+            m_ghost.ResetShape();
         }
     }
 }
