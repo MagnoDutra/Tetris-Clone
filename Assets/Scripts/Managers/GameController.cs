@@ -183,6 +183,10 @@ public class GameController : MonoBehaviour
         {
             TogglePause();
         }
+        else if (Input.GetButtonDown("Hold"))
+        {
+            Hold();
+        }
     }
 
     void PlaySound(AudioClip clip, float volMultiplier = 1f)
@@ -216,6 +220,11 @@ public class GameController : MonoBehaviour
         if (m_ghost)
         {
             m_ghost.ResetShape();
+        }
+
+        if (m_holder)
+        {
+            m_holder.m_canRelease = true;
         }
 
         m_activeShape = m_spawner.SpawnShape();
@@ -316,6 +325,20 @@ public class GameController : MonoBehaviour
             m_holder.Catch(m_activeShape);
 
             m_activeShape = m_spawner.SpawnShape();
+            PlaySound(m_soundManager.m_holdSound);
+        }
+        else if(m_holder.m_canRelease)
+        {
+            Shape temp = m_activeShape;
+            m_activeShape = m_holder.Release();
+            m_activeShape.transform.position = m_spawner.transform.position;
+            m_holder.Catch(temp);
+            PlaySound(m_soundManager.m_holdSound);
+        }
+        else
+        {
+            Debug.LogWarning("HOLDER WARNING! Wait for cooldown!");
+            PlaySound(m_soundManager.m_errorSound);
         }
 
         if (m_ghost)
