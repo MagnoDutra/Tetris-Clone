@@ -7,6 +7,7 @@ public class Holder : MonoBehaviour
     public Transform m_holderXform;
     public Shape m_heldShape = null;
     float m_scale = 0.5f;
+    public bool m_canRelease = false;
 
     public void Catch(Shape shape)
     {
@@ -32,5 +33,16 @@ public class Holder : MonoBehaviour
         {
             Debug.Log("Holder warning! Holders has no transform assigned!");
         }
+    }
+
+    public Shape Release()
+    {
+        m_heldShape.transform.localScale = Vector3.one;
+        Shape shape = m_heldShape;
+        m_heldShape = null;
+
+        m_canRelease = false;
+
+        return shape;
     }
 }
