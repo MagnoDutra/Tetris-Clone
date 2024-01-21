@@ -213,9 +213,15 @@ public class GameController : MonoBehaviour
 
     private void LandShape()
     {
+        if (!m_activeShape)
+        {
+            return;
+        }
 
         m_activeShape.MoveUp();
         m_gameBoard.StoreShapeInGrid(m_activeShape);
+
+        m_activeShape.LandShapeFX();
 
         if (m_ghost)
         {

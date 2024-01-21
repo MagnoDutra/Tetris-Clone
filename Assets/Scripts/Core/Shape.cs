@@ -7,16 +7,37 @@ public class Shape : MonoBehaviour
     [SerializeField] bool m_canRotate = true;
     public Vector3 m_queueOffset;
 
+    public GameObject[] m_glowSquareFX;
+    public string glowSquareTag = "LandShapeFx";
+
     // Start is called before the first frame update
     void Start()
     {
-
+        if(glowSquareTag != "")
+        {
+            m_glowSquareFX = GameObject.FindGameObjectsWithTag(glowSquareTag);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LandShapeFX()
     {
+        int i = 0;
         
+        foreach (Transform child in gameObject.transform)
+        {
+            if (m_glowSquareFX[i])
+            {
+                m_glowSquareFX[i].transform.position = new Vector3(child.position.x, child.position.y, -2f);
+                ParticlePlayer particlePlayer = m_glowSquareFX[i].GetComponent<ParticlePlayer>();
+
+                if(particlePlayer != null)
+                {
+                    particlePlayer.Play();
+                }
+            }
+
+            i++;
+        }
     }
 
     void Move(Vector3 moveDirection)
